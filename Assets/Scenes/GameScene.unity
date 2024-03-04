@@ -308,7 +308,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 35
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -733,6 +733,7 @@ GameObject:
   - component: {fileID: 1979529472}
   - component: {fileID: 1979529473}
   - component: {fileID: 1979529471}
+  - component: {fileID: 1979529474}
   m_Layer: 0
   m_Name: PlayerSpaceship
   m_TagString: Untagged
@@ -910,6 +911,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1979529474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979529469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac35cc7534d1c944b38609a589194b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

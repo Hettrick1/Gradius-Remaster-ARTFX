@@ -53,11 +53,11 @@ public class PlayerMovements : MonoBehaviour
 
         if (movement.x < 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(rightRotation, 0, 0);
+            spaceshipAssets.transform.rotation = Quaternion.Euler(-rightRotation, 0, 0);
         }
         else if (movement.x > 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(-rightRotation, 0, 0);
+            spaceshipAssets.transform.rotation = Quaternion.Euler(rightRotation, 0, 0);
         }
         else if (movement.y < 0)
         {

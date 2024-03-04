@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -38,6 +39,10 @@ public class MissileBehavior : MonoBehaviour
         {
             forceMode = ForceMode.VelocityChange;
         }
+    }
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject, 2);
     }
     private void FixedUpdate()
     {
