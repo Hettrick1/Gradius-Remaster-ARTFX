@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,7 +12,8 @@ public class PlayerMovements : MonoBehaviour
 
     private GameObject spaceshipAssets;
 
-    [SerializeField] private GameObject missileSpowanPoint;
+    [SerializeField] private Transform missileSpawnPoint;
+    [SerializeField] private GameObject missile;
 
     [Header ("Game feel")]
     [SerializeField] private float speedSpaceship;
@@ -19,8 +21,13 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float massSpaceship;
     [SerializeField] private float upRotation;
     [SerializeField] private float rightRotation;
+    [SerializeField] private float timeBetweenShoot;
 
-    void Start()
+    float timer;
+    bool isShooting;
+    Vector2 movement;
+
+    private void Start()
     {
         instance = this;
         spaceshipAssets = transform.GetChild(0).gameObject;
@@ -29,9 +36,19 @@ public class PlayerMovements : MonoBehaviour
         rb.mass = massSpaceship;
     }
 
+    private void Update()
+    {
+        if (isShooting && timer <= 0)
+        {
+            timer = timeBetweenShoot;
+            Instantiate(missile, missileSpawnPoint.position, Quaternion.identity);
+        }
+        timer -= Time.deltaTime;
+    }
+
     private void FixedUpdate()
     {
-        Vector2 movement = new Vector2((transform.up.x * -input.x) + (transform.right.x * -input.x), (transform.forward.z * input.y) + (transform.right.z * input.y));
+        movement = new Vector2((transform.up.x * -input.x) + (transform.right.x * -input.x), (transform.forward.z * input.y) + (transform.right.z * input.y));
         rb.AddForce(movement.normalized * speedSpaceship * Time.fixedDeltaTime * 500, ForceMode.Force);
 
         if (movement.x < 0)
@@ -62,6 +79,14 @@ public class PlayerMovements : MonoBehaviour
     }
     public void playerShoot(InputAction.CallbackContext context)
     {
-        input = context.ReadValue<Vector2>();
+        if (context.performed)
+        {
+            isShooting = true;
+        }
+            
+        if (context.canceled)
+        {
+            isShooting = false;
+        }
     }
 }

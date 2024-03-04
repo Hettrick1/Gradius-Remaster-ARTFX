@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 12388375}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.364, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -769,12 +769,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc016ee08490df42bd1678eb4acfc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missileSpowanPoint: {fileID: 12388375}
+  missileSpawnPoint: {fileID: 12388376}
+  missile: {fileID: 7550949189264589572, guid: 0150a886d4cac8e42af46d8b851709a5, type: 3}
   speedSpaceship: 5
   dragSpaceship: 4
   massSpaceship: 1
   upRotation: 10
   rightRotation: 10
+  timeBetweenShoot: 0.3
 --- !u!54 &1979529472
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -844,7 +846,19 @@ MonoBehaviour:
     m_ActionId: a0f0b76d-a043-41b9-a3f9-9427053019ee
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1979529471}
+        m_TargetAssemblyTypeName: PlayerMovements, Assembly-CSharp
+        m_MethodName: playerShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e61ee204-cc6c-48cd-b92b-58431d9a4cfc
     m_ActionName: Player/Shoot[/Keyboard/space,/Mouse/leftButton]
   - m_PersistentCalls:
