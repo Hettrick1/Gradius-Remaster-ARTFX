@@ -6,24 +6,37 @@ public class BackgroundMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private Material[] materials;
+    [SerializeField] private bool isStar;
+    [SerializeField] private float maxPos;
+    [SerializeField] private float minPos;
 
+    MeshRenderer mr;
     private void Start()
     {
-
+        if (!isStar)
+        {
+            mr = GetComponent<MeshRenderer>();
+            mr.material = materials[Random.Range(0, materials.Length)];
+            transform.localRotation = Quaternion.Euler(Mathf.RoundToInt(Random.Range(0, 4) * 90), 90, 90);
+        }
     }
     private void Update()
     {
         transform.position += Vector3.right * speed * Time.deltaTime;
-        if(transform.position.x >= 25)
+        if(!isStar && transform.position.x >= maxPos )
         {
             TpBackground();
+        }
+        else if (transform.position.x >= 40)
+        {
+            transform.position = new Vector3(-20f, 0f, transform.position.z);
         }
     }
 
     private void TpBackground()
     {
-        GetComponent<MeshRenderer>().material = materials[Random.Range(0, materials.Length)] ;
+        mr.material = materials[Random.Range(0, materials.Length)];
         transform.localRotation = Quaternion.Euler(Mathf.RoundToInt(Random.Range(0, 4) * 90), 90, 90);
-        transform.position = new Vector3(-15f, 0f, transform.position.z);
+        transform.position = new Vector3(minPos, 0f, transform.position.z);
     }
 }

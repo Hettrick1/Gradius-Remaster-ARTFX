@@ -119,9 +119,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c69e4a1c4848946a79ea435efd9935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 3
   materials:
-  - {fileID: 2100000, guid: 9fd6dcef458367f4cacdf36ee5b0debc, type: 2}
-  - {fileID: 2100000, guid: 1fdb3086a69f3634fab66f30432a8d7d, type: 2}
-  - {fileID: 2100000, guid: 155660150ca6b6948be5f3e245113025, type: 2}
-  - {fileID: 2100000, guid: f3730dc945ef7814fa8b821b9c48a1a7, type: 2}
+  - {fileID: 2100000, guid: 9e3bf8622a4007e489977c16189b05d0, type: 2}
+  - {fileID: 2100000, guid: 3fadd28c8bd6d234aaf05fba40512107, type: 2}
+  - {fileID: 2100000, guid: 6af2c0c23e6d19943a19a06c602b63d9, type: 2}
+  - {fileID: 2100000, guid: 26412772baab74448950c9a384a4e289, type: 2}
+  - {fileID: 2100000, guid: fb38de3c62458694392d46dc7ed6c831, type: 2}
+  - {fileID: 2100000, guid: b441ef8a1e4eac249b59458e0f57a104, type: 2}
+  - {fileID: 2100000, guid: 44bdaaf4cb88f364ea57d02ac132e1f5, type: 2}
+  - {fileID: 2100000, guid: 1125b8fa4146e1f4794a3cecf4a992d9, type: 2}
+  - {fileID: 2100000, guid: 1125b8fa4146e1f4794a3cecf4a992d9, type: 2}
+  - {fileID: 2100000, guid: 1125b8fa4146e1f4794a3cecf4a992d9, type: 2}
+  - {fileID: 2100000, guid: 1125b8fa4146e1f4794a3cecf4a992d9, type: 2}
