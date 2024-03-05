@@ -9,6 +9,10 @@ public class MissileBehavior : MonoBehaviour
 
     private Rigidbody rb;
 
+    private Camera mainCamera;
+    private float camWidth, camHeight;
+    private float objectWidth, objectHeight;
+
     enum MissileType
     {
         ACCELERATION,
@@ -21,6 +25,14 @@ public class MissileBehavior : MonoBehaviour
     private ForceMode forceMode;
     private void Start()
     {
+        mainCamera = Camera.main;
+
+        camHeight = 2f * mainCamera.orthographicSize;
+        camWidth = camHeight * mainCamera.aspect;
+
+        objectHeight = transform.localScale.y;
+        objectWidth = transform.localScale.x;
+
         rb = GetComponent<Rigidbody>();
         rb.mass = massMissile;
         if (missileType == MissileType.ACCELERATION)
@@ -42,12 +54,22 @@ public class MissileBehavior : MonoBehaviour
     }
     private void OnBecameInvisible()
     {
-        Destroy(gameObject, 2);
+        Destroy(gameObject);
     }
     private void FixedUpdate()
     {
-        
-
         rb.AddForce(transform.right * -speedMissile * Time.fixedDeltaTime, forceMode);
+    }
+    void LateUpdate()
+    {
+        float minX = mainCamera.transform.position.x - camWidth / 2f + objectWidth / 2f;
+        float maxX = mainCamera.transform.position.x + camWidth / 2f - objectWidth / 2f;
+        float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
+        float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
+
+        if(transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
     }
 }

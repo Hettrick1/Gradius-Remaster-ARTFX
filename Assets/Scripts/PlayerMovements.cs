@@ -51,19 +51,19 @@ public class PlayerMovements : MonoBehaviour
         movement = new Vector2((transform.up.x * -input.x) + (transform.right.x * -input.x), (transform.forward.z * input.y) + (transform.right.z * input.y));
         rb.AddForce(movement.normalized * speedSpaceship * Time.fixedDeltaTime * 500, ForceMode.Force);
 
-        if (movement.x < 0)
+        if (movement.y < 0)
         {
             spaceshipAssets.transform.rotation = Quaternion.Euler(-rightRotation, 0, 0);
         }
-        else if (movement.x > 0)
+        else if (movement.y > 0)
         {
             spaceshipAssets.transform.rotation = Quaternion.Euler(rightRotation, 0, 0);
         }
-        else if (movement.y < 0)
+        else if (movement.x < 0)
         {
             spaceshipAssets.transform.rotation = Quaternion.Euler(0, 0, upRotation);           
         }
-        else if (movement.y > 0)
+        else if (movement.x > 0)
         {
             spaceshipAssets.transform.rotation = Quaternion.Euler(0, 0, -upRotation);
         }

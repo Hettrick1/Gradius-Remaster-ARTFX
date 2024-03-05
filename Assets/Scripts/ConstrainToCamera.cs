@@ -5,12 +5,10 @@ public class ConstrainToCamera : MonoBehaviour
     private Camera mainCamera;
     private float camWidth, camHeight;
     private float objectWidth, objectHeight;
-    private Rigidbody rb;
 
     void Start()
     {
         mainCamera = Camera.main;
-        rb = GetComponent<Rigidbody>();
 
         camHeight = 2f * mainCamera.orthographicSize;
         camWidth = camHeight * mainCamera.aspect;
@@ -18,7 +16,6 @@ public class ConstrainToCamera : MonoBehaviour
         objectHeight = transform.GetChild(0).localScale.y;
         objectWidth = transform.GetChild(0).localScale.x;
     }
-
     void LateUpdate()
     {
         float minX = mainCamera.transform.position.x - camWidth / 2f + objectWidth / 2f;
