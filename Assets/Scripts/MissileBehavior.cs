@@ -1,13 +1,19 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Windows;
+using static UnityEngine.GraphicsBuffer;
 
 public class MissileBehavior : MonoBehaviour
 {
     [SerializeField] private float speedMissile;
     [SerializeField] private float massMissile;
+    [SerializeField] private float damages;
+
+    [SerializeField] private float detectionRange;
+    [SerializeField] private float turnRadius;
 
     private Rigidbody rb;
+    private Transform target;
 
     private Camera mainCamera;
     private float camWidth, camHeight;
@@ -51,6 +57,8 @@ public class MissileBehavior : MonoBehaviour
         {
             forceMode = ForceMode.VelocityChange;
         }
+
+        FindTarget();
     }
     private void OnBecameInvisible()
     {
@@ -58,7 +66,27 @@ public class MissileBehavior : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.AddForce(transform.right * -speedMissile * Time.fixedDeltaTime, forceMode);
+        if (target != null)
+        {
+            Vector3 direction = target.position - transform.position;
+            float distance = direction.magnitude;
+
+            Vector3 desiredVelocity = direction * speedMissile;
+            Vector3 steeringForce = (desiredVelocity - rb.velocity).normalized * speedMissile * 0.5f;
+            rb.AddForce(steeringForce * Time.deltaTime, forceMode);
+           
+            if (rb.velocity != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                targetRotation *= Quaternion.Euler(0, 90, 0);
+
+                transform.rotation = targetRotation;
+            }
+        }
+        else
+        {
+            rb.AddForce(transform.right * -speedMissile * Time.deltaTime, forceMode);
+        }
     }
     void LateUpdate()
     {
@@ -69,7 +97,31 @@ public class MissileBehavior : MonoBehaviour
 
         if(transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
         {
-            GetComponent<BoxCollider>().enabled = false;
+            Destroy(gameObject,0.1f);
+        }
+    }
+    private void FindTarget()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                target = enemy.transform;
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyBehavior>().TakeDamage(damages);
+            Destroy(gameObject);
         }
     }
 }
