@@ -5,6 +5,7 @@ using UnityEngine;
 public class BackgroundMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private Material[] materials;
 
     private void Start()
     {
@@ -12,10 +13,17 @@ public class BackgroundMovement : MonoBehaviour
     }
     private void Update()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += Vector3.right * speed * Time.deltaTime;
         if(transform.position.x >= 25)
         {
-            transform.position = new Vector3(-15f, 0f, transform.position.z);
+            TpBackground();
         }
+    }
+
+    private void TpBackground()
+    {
+        GetComponent<MeshRenderer>().material = materials[Random.Range(0, materials.Length)] ;
+        transform.localRotation = Quaternion.Euler(Mathf.RoundToInt(Random.Range(0, 4) * 90), 90, 90);
+        transform.position = new Vector3(-15f, 0f, transform.position.z);
     }
 }
