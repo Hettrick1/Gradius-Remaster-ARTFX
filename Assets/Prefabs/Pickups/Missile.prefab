@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 7475340531379887567}
   - component: {fileID: -1225038209013943385}
   - component: {fileID: 2120766318876199966}
+  - component: {fileID: -1582628118347496174}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Pickup
@@ -203,3 +204,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1582628118347496174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7475340531379887566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5527be75acfdbd44aa43d368d7d0540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: 3

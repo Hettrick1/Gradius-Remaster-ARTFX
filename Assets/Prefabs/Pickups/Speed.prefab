@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 8675985045912274422}
   - component: {fileID: 2445880752022173850}
   - component: {fileID: 1228178016981976803}
+  - component: {fileID: 3681460478369403567}
   m_Layer: 0
   m_Name: Speed
   m_TagString: Pickup
@@ -203,3 +204,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3681460478369403567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8675985045912274417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5527be75acfdbd44aa43d368d7d0540c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: 1
