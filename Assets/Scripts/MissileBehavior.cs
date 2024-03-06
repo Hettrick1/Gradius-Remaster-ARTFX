@@ -10,7 +10,6 @@ public class MissileBehavior : MonoBehaviour
     [SerializeField] private float damages;
 
     [SerializeField] private float detectionRange;
-    [SerializeField] private float turnRadius;
 
     private Rigidbody rb;
     private Transform target;
