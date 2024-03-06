@@ -10,6 +10,8 @@ public class Pickup_Spawn : MonoBehaviour
     //Array of Pickups
     public GameObject[] pickups;
 
+    [SerializeField] private float dropRate;
+
     //Start
     public void Start()
     {
@@ -19,7 +21,7 @@ public class Pickup_Spawn : MonoBehaviour
     //Spawn Pickup Function
     public void spawnPickup()
     {
-        if (Random.Range(0, 100) <= 30)
+        if (Random.Range(0, 100) <= dropRate)
         {
             GameObject pickup = pickups[Random.Range(0, pickups.Length)];
 
