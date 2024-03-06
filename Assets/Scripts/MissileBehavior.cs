@@ -71,13 +71,21 @@ public class MissileBehavior : MonoBehaviour
             Vector3 direction = target.position - transform.position;
             float distance = direction.magnitude;
 
-            Vector3 desiredVelocity = direction * speedMissile;
-            Vector3 steeringForce = (desiredVelocity - rb.velocity).normalized * speedMissile * 0.5f;
-            rb.AddForce(steeringForce * Time.deltaTime, forceMode);
-           
-            if (rb.velocity != Vector3.zero)
+
+            if(distance < detectionRange)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                Vector3 desiredVelocity = direction * speedMissile;
+                Vector3 steeringForce = (desiredVelocity - rb.velocity).normalized * speedMissile * 0.5f;
+                rb.AddForce(steeringForce * Time.deltaTime, forceMode);
+            }
+            else
+            {
+                rb.AddForce(transform.right * -speedMissile * Time.deltaTime, forceMode);
+            }
+           
+            if (rb.velocity != Vector3.zero && distance < detectionRange)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(rb.velocity);
                 targetRotation *= Quaternion.Euler(0, 90, 0);
 
                 transform.rotation = targetRotation;
