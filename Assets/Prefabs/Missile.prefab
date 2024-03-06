@@ -295,6 +295,6 @@ MonoBehaviour:
   speedMissile: 8
   massMissile: 0.2
   damages: 10
-  detectionRange: 14
-  turnRadius: 0.3
+  detectionRange: 13
+  turnRadius: 0.1
   missileType: 2

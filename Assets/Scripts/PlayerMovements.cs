@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +15,10 @@ public class PlayerMovements : MonoBehaviour
     private GameObject spaceshipAssets;
 
     [SerializeField] private Transform missileSpawnPoint;
+    [SerializeField] private Transform[] laserSpawnPoints;
+    [SerializeField] private List<Transform> activeLaserSpawnPoint = new List<Transform>();
     [SerializeField] private GameObject missile;
+    [SerializeField] private GameObject laser;
 
     [Header ("Game feel")]
     [SerializeField] private float speedSpaceship;
@@ -21,10 +26,12 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float massSpaceship;
     [SerializeField] private float upRotation;
     [SerializeField] private float rightRotation;
-    [SerializeField] private float timeBetweenShoot;
+    [SerializeField] private float timeBetweenMissileShoot;
+    [SerializeField] private float timeBetweenLaserShoot;
+    [SerializeField] private float missileLevel;
 
-    float timer;
-    bool isShooting;
+    float missiletimer, laserTimer;
+    bool isShootingMissile, isShootingLasers, canShootMissile;
     Vector2 movement;
 
     private void Start()
@@ -34,16 +41,33 @@ public class PlayerMovements : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.drag = dragSpaceship;
         rb.mass = massSpaceship;
+        activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
     }
 
     private void Update()
     {
-        if (isShooting && timer <= 0)
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            timer = timeBetweenShoot;
+            LevelUp();
+        }
+
+        if (isShootingMissile && missiletimer <= 0 && canShootMissile)
+        {
+            missiletimer = timeBetweenMissileShoot;
             Instantiate(missile, missileSpawnPoint.position, Quaternion.identity);
         }
-        timer -= Time.deltaTime;
+        if (isShootingLasers && laserTimer <= 0)
+        {
+            laserTimer = timeBetweenLaserShoot;
+            foreach (Transform laserSpawnPoint in activeLaserSpawnPoint)
+            {
+                Instantiate(laser, laserSpawnPoint.position, Quaternion.identity);
+            }
+            
+        }
+
+        missiletimer -= Time.deltaTime;
+        laserTimer -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -81,12 +105,36 @@ public class PlayerMovements : MonoBehaviour
     {
         if (context.performed)
         {
-            isShooting = true;
+            isShootingMissile = true;
+            isShootingLasers = true;
         }
             
         if (context.canceled)
         {
-            isShooting = false;
+            isShootingMissile = false;
+            isShootingLasers = false;
+        }
+    }
+
+    private void LevelUp()
+    {
+        missileLevel += 1;
+        if (missileLevel == 1)
+        {
+            activeLaserSpawnPoint.Clear();
+            activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
+            activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
+        }
+        if (missileLevel == 2)
+        {
+            activeLaserSpawnPoint.Clear();
+            activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
+            activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
+            activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
+        }
+        if (missileLevel == 3)
+        {
+            canShootMissile = true;
         }
     }
 }
