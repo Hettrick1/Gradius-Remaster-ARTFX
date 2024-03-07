@@ -41,6 +41,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private Rigidbody rb;
     private GameObject spaceshipAsset;
+    private GameManager gm;
     private Camera mainCamera;
 
     enum EnemyFireState
@@ -60,6 +61,7 @@ public class EnemyBehavior : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gm = GameManager.instance;
         maxHeight = transform.position.y + 0.2f;
         minHeight = transform.position.y - 0.2f;
 
@@ -74,6 +76,7 @@ public class EnemyBehavior : MonoBehaviour
         objectWidth = transform.localScale.x;
 
         activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
+        life = gm.GetEnemiesLife();
     }
 
     private void Update()
@@ -84,7 +87,7 @@ public class EnemyBehavior : MonoBehaviour
         }
         if (fireState == EnemyFireState.SHOOTLASERS)
         {
-            if (laserTimer <= 0)
+            if (laserTimer <= 0 && !hasDied)
             {
                 laserTimer = timeBetweenLaserShoot;
                 foreach (Transform laserSpawnPoint in activeLaserSpawnPoint)
@@ -96,7 +99,7 @@ public class EnemyBehavior : MonoBehaviour
         }
         if(fireState == EnemyFireState.SHOOTMISSILES)
         {
-            if (missiletimer <= 0 && canShootMissile)
+            if (missiletimer <= 0 && canShootMissile && !hasDied)
             {
                 missiletimer = timeBetweenMissileShoot;
                 Instantiate(missile, missileSpawnPoint.position, Quaternion.identity);
@@ -107,6 +110,10 @@ public class EnemyBehavior : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (hasDied)
+        {
+            rb.velocity = Vector3.zero;
+        }
         if (justSpawned)
         {
             rb.velocity +=  Vector3.right * enemyMoveSpeed * Time.fixedDeltaTime;
@@ -222,12 +229,13 @@ public class EnemyBehavior : MonoBehaviour
         hasDied = true;
         transform.GetChild(0).gameObject.SetActive(false);
         GetComponent<BoxCollider>().enabled = false;
-        rb.velocity = Vector3.zero;
+        transform.position = Vector3.zero;
         moveState = EnemyMoveState.STATIC;
     }
     public void Revive()
     {
         hasDied = false;
+        life = gm.GetEnemiesLife();
         transform.GetChild(0).gameObject.SetActive(true);
         GetComponent<BoxCollider>().enabled = true;
     }
@@ -245,6 +253,21 @@ public class EnemyBehavior : MonoBehaviour
         else
         {
             moveState = EnemyMoveState.ROUND;
+        }
+    }
+    public void ChooseShootState(int state)
+    {
+        if (state == 1)
+        {
+            fireState = EnemyFireState.NOTHING;
+        }
+        else if (state == 2)
+        {
+            fireState = EnemyFireState.SHOOTLASERS;
+        }
+        else
+        {
+            fireState = EnemyFireState.SHOOTMISSILES;
         }
     }
     public bool HasDied() {  return hasDied; }

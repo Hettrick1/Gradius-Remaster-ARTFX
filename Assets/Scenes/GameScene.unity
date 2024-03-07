@@ -507,10 +507,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215b523b126c3c845a2293806ce2993c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveNumber: 0
+  waveNumber: 4
   numberOfEnemies: 0
-  enemies: {fileID: 4450141107419114391, guid: 6d67252655a95b74bb00814a9910c3fd, type: 3}
-  boss: {fileID: 0}
+  enemiesPrefabs: {fileID: 4450141107419114391, guid: 6d67252655a95b74bb00814a9910c3fd, type: 3}
+  bossPrefabs: {fileID: 0}
+  enemiesLife: 0
   positions:
   - {fileID: 1238680512}
   - {fileID: 526385781}
@@ -518,6 +519,7 @@ MonoBehaviour:
   - {fileID: 364419699}
   - {fileID: 1301324989}
   - {fileID: 627608393}
+  justRevived: 0
 --- !u!82 &519458848
 AudioSource:
   m_ObjectHideFlags: 0
