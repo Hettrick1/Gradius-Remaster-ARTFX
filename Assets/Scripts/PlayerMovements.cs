@@ -23,6 +23,9 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float rightRotation;
     [SerializeField] private float timeBetweenShoot;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource playerSound;
+
     float timer;
     bool isShooting;
     Vector2 movement;
@@ -81,6 +84,7 @@ public class PlayerMovements : MonoBehaviour
     {
         if (context.performed)
         {
+            playerSound.Play();
             isShooting = true;
         }
             
