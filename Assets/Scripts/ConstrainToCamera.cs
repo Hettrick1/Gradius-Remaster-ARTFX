@@ -16,14 +16,14 @@ public class ConstrainToCamera : MonoBehaviour
         camWidth = camHeight * mainCamera.aspect;
 
         objectHeight = ship.transform.localScale.y;
-        objectWidth = ship.transform.localScale.x;
+        objectWidth = ship.transform.localScale.z;
     }
     void LateUpdate()
     {
-        float minX = mainCamera.transform.position.x - camWidth / 2f + objectWidth / 2f;
-        float maxX = mainCamera.transform.position.x + camWidth / 2f - objectWidth / 2f;
-        float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
-        float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
+        float minX = mainCamera.transform.position.x - camWidth / 2f - objectWidth;
+        float maxX = mainCamera.transform.position.x + camWidth / 2f + objectWidth;
+        float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight /2;
+        float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight /2;
 
         Vector3 clampedPosition = transform.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);

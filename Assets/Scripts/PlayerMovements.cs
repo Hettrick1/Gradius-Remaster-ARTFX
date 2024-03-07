@@ -62,6 +62,7 @@ public class PlayerMovements : MonoBehaviour
         if (isShootingLasers && laserTimer <= 0)
         {
             laserTimer = timeBetweenLaserShoot;
+            playerSound.Play();
             foreach (Transform laserSpawnPoint in activeLaserSpawnPoint)
             {
                 Instantiate(laser, laserSpawnPoint.position, Quaternion.identity);
@@ -75,7 +76,7 @@ public class PlayerMovements : MonoBehaviour
 
     private void FixedUpdate()
     {
-        movement = new Vector2((transform.up.x * -input.x) + (transform.right.x * -input.x), (transform.forward.z * input.y) + (transform.right.z * input.y));
+        movement = new Vector2((Vector3.up.x * input.x) + (Vector3.right.x * -input.x), (transform.forward.z * input.y) + (transform.right.z * -input.y));
         rb.AddForce(movement.normalized * speedSpaceship * Time.fixedDeltaTime * 500, ForceMode.Force);
 
         if (movement.x < 0)
@@ -88,11 +89,11 @@ public class PlayerMovements : MonoBehaviour
         }
         else if (movement.y < 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90 , upRotation);           
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90, upRotation);
         }
         else if (movement.y > 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90 , -upRotation);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90, -upRotation);
         }
         else if (movement.x == 0 && movement.y == 0)
         {
@@ -110,7 +111,6 @@ public class PlayerMovements : MonoBehaviour
         {
             isShootingMissile = true;
             isShootingLasers = true;
-            playerSound.Play();
             isShooting = true;
         }
             

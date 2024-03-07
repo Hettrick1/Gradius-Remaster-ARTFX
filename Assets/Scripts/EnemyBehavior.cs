@@ -37,6 +37,8 @@ public class EnemyBehavior : MonoBehaviour
 
     private float verticalMoveDirection = 1;
 
+    bool hasDied, justSpawned;
+
     private Rigidbody rb;
     private GameObject spaceshipAsset;
     private Camera mainCamera;
@@ -105,7 +107,11 @@ public class EnemyBehavior : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        print(rb.velocity.x);
+        if (justSpawned)
+        {
+            rb.velocity +=  Vector3.right * enemyMoveSpeed * Time.fixedDeltaTime;
+        }
+
         if (moveState == EnemyMoveState.LEFT)
         {
             rb.AddForce(Vector2.right * enemyMoveSpeed * Time.fixedDeltaTime * 500, ForceMode.Force);
@@ -160,9 +166,9 @@ public class EnemyBehavior : MonoBehaviour
         float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
         float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
 
-        if (transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
+        if (transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
         {
-            Destroy(gameObject, 0.1f);
+            Invoke(nameof(Died), 0.1f);
         }
     }
 
@@ -172,7 +178,7 @@ public class EnemyBehavior : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             print("PlayerKilled");
-            Destroy(gameObject);
+            Died();
         }
     }
 
@@ -186,7 +192,7 @@ public class EnemyBehavior : MonoBehaviour
         else
         {
             blowUp.Play();
-            Destroy(gameObject);
+            Died();
         }
     }
     private void LevelUp()
@@ -210,5 +216,39 @@ public class EnemyBehavior : MonoBehaviour
             canShootMissile = true;
         }
     }
+
+    private void Died()
+    {
+        hasDied = true;
+        transform.GetChild(0).gameObject.SetActive(false);
+        GetComponent<BoxCollider>().enabled = false;
+        rb.velocity = Vector3.zero;
+        moveState = EnemyMoveState.STATIC;
+    }
+    public void Revive()
+    {
+        hasDied = false;
+        transform.GetChild(0).gameObject.SetActive(true);
+        GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void ChooseMoveState(int state)
+    {
+        if (state == 1)
+        {
+            moveState = EnemyMoveState.LEFT;
+        }
+        else if (state == 2)
+        {
+            moveState = EnemyMoveState.UPDOWN;
+        }
+        else
+        {
+            moveState = EnemyMoveState.ROUND;
+        }
+    }
+    public bool HasDied() {  return hasDied; }
+
+    public void SetJustSpawned(bool spawned) {  justSpawned = spawned; }
 
 }
