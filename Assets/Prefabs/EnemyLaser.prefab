@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 4137895448488412974}
   - component: {fileID: 8150549919665752418}
   - component: {fileID: -4826579964453859791}
-  - component: {fileID: 3306546025356002247}
+  - component: {fileID: -2078866637925784510}
   m_Layer: 0
-  m_Name: Laser
-  m_TagString: Projectile
+  m_Name: EnemyLaser
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +135,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 3
---- !u!114 &3306546025356002247
+--- !u!114 &-2078866637925784510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,10 +144,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7550949189264589572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d3298bebc9f764e9aca4e106576e79, type: 3}
+  m_Script: {fileID: 11500000, guid: 107b029abed56084cb381a22ccc60d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 15
+  acceleration: 2
   damages: 10
 --- !u!1 &7694627609079621127
 GameObject:

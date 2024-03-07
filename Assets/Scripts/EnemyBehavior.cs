@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
@@ -14,15 +11,32 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float verticalMoveSpeed;
     [SerializeField] private float enemyShootSpeed;
 
+    [SerializeField] private Transform missileSpawnPoint;
+    [SerializeField] private Transform[] laserSpawnPoints;
+    private List<Transform> activeLaserSpawnPoint = new List<Transform>();
+    [SerializeField] private GameObject missile;
+    [SerializeField] private GameObject laser;
+
+    float missiletimer, laserTimer;
+    bool canShootMissile;
+    [SerializeField] private float timeBetweenMissileShoot;
+    [SerializeField] private float timeBetweenLaserShoot;
+    [SerializeField] private float missileLevel;
+
     public float radius;
     public float rotationSpeed = 10f;
 
     private float maxHeight;
     private float minHeight;
 
+    private float camWidth, camHeight;
+    private float objectWidth, objectHeight;
+
     private float verticalMoveDirection = 1;
 
     private Rigidbody rb;
+    private GameObject spaceshipAsset;
+    private Camera mainCamera;
 
     enum EnemyFireState
     {
@@ -42,20 +56,49 @@ public class EnemyBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         maxHeight = transform.position.y + 0.2f;
-        minHeight = transform.position.y - 0.2f; 
+        minHeight = transform.position.y - 0.2f;
+
+        spaceshipAsset = transform.GetChild(0).gameObject;
+
+        mainCamera = Camera.main;
+
+        camHeight = 2f * mainCamera.orthographicSize;
+        camWidth = camHeight * mainCamera.aspect;
+
+        objectHeight = transform.localScale.y;
+        objectWidth = transform.localScale.x;
+
+        activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
     }
 
     private void Update()
     {
-        if(fireState == EnemyFireState.SHOOTLASERS)
+        if (Input.GetKeyDown(KeyCode.Return))
         {
+            LevelUp();
+        }
+        if (fireState == EnemyFireState.SHOOTLASERS)
+        {
+            if (laserTimer <= 0)
+            {
+                laserTimer = timeBetweenLaserShoot;
+                foreach (Transform laserSpawnPoint in activeLaserSpawnPoint)
+                {
+                    Instantiate(laser, laserSpawnPoint.position, Quaternion.identity);
+                }
 
+            }
         }
         if(fireState == EnemyFireState.SHOOTMISSILES)
         {
-
+            if (missiletimer <= 0 && canShootMissile)
+            {
+                missiletimer = timeBetweenMissileShoot;
+                Instantiate(missile, missileSpawnPoint.position, Quaternion.identity);
+            }
         }
-        
+        missiletimer -= Time.deltaTime;
+        laserTimer -= Time.deltaTime;
     }
     private void FixedUpdate()
     {
@@ -84,6 +127,49 @@ public class EnemyBehavior : MonoBehaviour
 
             transform.position += new Vector3(x, y, 0) * Time.fixedDeltaTime;
         }
+
+        if (rb.velocity.y < 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(10, 0, 0);
+        }
+        if (rb.velocity.y > 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(-10, 0, 0);
+        }
+        if (rb.velocity.x < 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, 10);
+        }
+        if (rb.velocity.x > 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, -10);
+        }
+        if (rb.velocity.x == 0 && rb.velocity.y == 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+    void LateUpdate()
+    {
+        float minX = mainCamera.transform.position.x - camWidth / 2f + objectWidth / 2f;
+        float maxX = mainCamera.transform.position.x + camWidth / 2f - objectWidth / 2f;
+        float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
+        float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
+
+        if (transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
+        {
+            Destroy(gameObject, 0.1f);
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            print("PlayerKilled");
+            Destroy(gameObject);
+        }
     }
 
     public void TakeDamage(float damages)
@@ -95,6 +181,27 @@ public class EnemyBehavior : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+    private void LevelUp()
+    {
+        missileLevel += 1;
+        if (missileLevel == 1)
+        {
+            activeLaserSpawnPoint.Clear();
+            activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
+            activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
+        }
+        if (missileLevel == 2)
+        {
+            activeLaserSpawnPoint.Clear();
+            activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
+            activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
+            activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
+        }
+        if (missileLevel == 3)
+        {
+            canShootMissile = true;
         }
     }
 

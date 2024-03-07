@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,11 +10,11 @@ public class PlayerMovements : MonoBehaviour
     private Vector2 input;
     private Rigidbody rb;
 
-    private GameObject spaceshipAssets;
+    private GameObject spaceshipAsset;
 
     [SerializeField] private Transform missileSpawnPoint;
     [SerializeField] private Transform[] laserSpawnPoints;
-    [SerializeField] private List<Transform> activeLaserSpawnPoint = new List<Transform>();
+    private List<Transform> activeLaserSpawnPoint = new List<Transform>();
     [SerializeField] private GameObject missile;
     [SerializeField] private GameObject laser;
 
@@ -37,7 +35,7 @@ public class PlayerMovements : MonoBehaviour
     private void Start()
     {
         instance = this;
-        spaceshipAssets = transform.GetChild(0).gameObject;
+        spaceshipAsset = transform.GetChild(0).gameObject;
         rb = GetComponent<Rigidbody>();
         rb.drag = dragSpaceship;
         rb.mass = massSpaceship;
@@ -77,23 +75,23 @@ public class PlayerMovements : MonoBehaviour
 
         if (movement.y < 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(-rightRotation, 0, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(-rightRotation, 0, 0);
         }
         else if (movement.y > 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(rightRotation, 0, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(rightRotation, 0, 0);
         }
         else if (movement.x < 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(0, 0, upRotation);           
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, upRotation);           
         }
         else if (movement.x > 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(0, 0, -upRotation);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, -upRotation);
         }
         else if (movement.x == 0 && movement.y == 0)
         {
-            spaceshipAssets.transform.rotation = Quaternion.Euler(0, 0, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
