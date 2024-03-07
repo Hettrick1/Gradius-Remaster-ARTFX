@@ -5,6 +5,9 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     [SerializeField] private pickupEffect effect;
+    [SerializeField] private AudioSource pickupSound;
+    [SerializeField] private AudioSource lifeSound;
+
     //START
     void Start()
     {
@@ -16,6 +19,7 @@ public class Pickup : MonoBehaviour
     {
        if ( effect == pickupEffect.Life)
        {
+            lifeSound.Play();
 
        }
         if (effect == pickupEffect.Speed)
@@ -37,6 +41,7 @@ public class Pickup : MonoBehaviour
 
         if (Player.gameObject.tag == "Player")
         {
+            pickupSound.Play();
             Destroy(gameObject);
         }
     }

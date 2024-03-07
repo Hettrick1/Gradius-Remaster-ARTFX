@@ -12,6 +12,9 @@ public class PlayerMovements : MonoBehaviour
 
     [SerializeField] private GameObject spaceshipAsset;
 
+     [Header("Audio")]
+    [SerializeField] AudioSource playerSound;
+
     [SerializeField] private Transform missileSpawnPoint;
     [SerializeField] private Transform[] laserSpawnPoints;
     private List<Transform> activeLaserSpawnPoint = new List<Transform>();
@@ -30,6 +33,9 @@ public class PlayerMovements : MonoBehaviour
 
     float missiletimer, laserTimer;
     bool isShootingMissile, isShootingLasers, canShootMissile;
+
+    float timer;
+    bool isShooting;
     Vector2 movement;
 
     private void Start()
@@ -104,6 +110,8 @@ public class PlayerMovements : MonoBehaviour
         {
             isShootingMissile = true;
             isShootingLasers = true;
+            playerSound.Play();
+            isShooting = true;
         }
             
         if (context.canceled)
