@@ -10,7 +10,7 @@ public class PlayerMovements : MonoBehaviour
     private Vector2 input;
     private Rigidbody rb;
 
-    private GameObject spaceshipAsset;
+    [SerializeField] private GameObject spaceshipAsset;
 
     [SerializeField] private Transform missileSpawnPoint;
     [SerializeField] private Transform[] laserSpawnPoints;
@@ -35,7 +35,6 @@ public class PlayerMovements : MonoBehaviour
     private void Start()
     {
         instance = this;
-        spaceshipAsset = transform.GetChild(0).gameObject;
         rb = GetComponent<Rigidbody>();
         rb.drag = dragSpaceship;
         rb.mass = massSpaceship;
@@ -75,23 +74,23 @@ public class PlayerMovements : MonoBehaviour
 
         if (movement.x < 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(90-rightRotation, 90, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(-rightRotation, 90, 0);
         }
         else if (movement.x > 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(90+rightRotation, 90, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(+rightRotation, 90, 0);
         }
         else if (movement.y < 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(90, 90, upRotation);           
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90 , upRotation);           
         }
         else if (movement.y > 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(90, 90, -upRotation);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90 , -upRotation);
         }
         else if (movement.x == 0 && movement.y == 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(90, 90, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
     }
 

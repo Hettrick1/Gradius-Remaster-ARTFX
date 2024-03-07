@@ -6,6 +6,8 @@ public class ConstrainToCamera : MonoBehaviour
     private float camWidth, camHeight;
     private float objectWidth, objectHeight;
 
+    [SerializeField] private GameObject ship;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -13,8 +15,8 @@ public class ConstrainToCamera : MonoBehaviour
         camHeight = 2f * mainCamera.orthographicSize;
         camWidth = camHeight * mainCamera.aspect;
 
-        objectHeight = transform.GetChild(0).localScale.y;
-        objectWidth = transform.GetChild(0).localScale.x;
+        objectHeight = ship.transform.localScale.y;
+        objectWidth = ship.transform.localScale.x;
     }
     void LateUpdate()
     {
