@@ -102,6 +102,7 @@ public class EnemyBehavior : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        print(rb.velocity.x);
         if (moveState == EnemyMoveState.LEFT)
         {
             rb.AddForce(Vector2.right * enemyMoveSpeed * Time.fixedDeltaTime * 500, ForceMode.Force);
@@ -128,25 +129,25 @@ public class EnemyBehavior : MonoBehaviour
             transform.position += new Vector3(x, y, 0) * Time.fixedDeltaTime;
         }
 
-        if (rb.velocity.y < 0)
-        {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(10, 0, 0);
-        }
-        if (rb.velocity.y > 0)
-        {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(-10, 0, 0);
-        }
         if (rb.velocity.x < 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, 10);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(-5, 90, 0);
         }
-        if (rb.velocity.x > 0)
+        else if (rb.velocity.x > 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, -10);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(5, 90, 0);
         }
-        if (rb.velocity.x == 0 && rb.velocity.y == 0)
+        else if (rb.velocity.y < 0)
         {
-            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 0, 0);
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90, 5);
+        }
+        else if (rb.velocity.y > 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90, -5);
+        }
+        else if (rb.velocity.x == 0 && rb.velocity.y == 0)
+        {
+            spaceshipAsset.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
     }
     void LateUpdate()
