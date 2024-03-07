@@ -158,10 +158,10 @@ GameObject:
   - component: {fileID: 4137895448488412974}
   - component: {fileID: 8150549919665752418}
   - component: {fileID: -4826579964453859791}
-  - component: {fileID: -334882821105559908}
+  - component: {fileID: -4072960861251548918}
   m_Layer: 0
-  m_Name: Missile
-  m_TagString: Projectile
+  m_Name: EnemyMissile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,7 +280,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 3
---- !u!114 &-334882821105559908
+--- !u!114 &-4072960861251548918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,11 +289,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7550949189264589572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e3c498d8dcf2c4e9a1ac1a759bd8db, type: 3}
+  m_Script: {fileID: 11500000, guid: 866cf892c0a57d54cb18c111382591a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedMissile: 8
-  massMissile: 0.2
+  massMissile: 0.3
   damages: 10
-  detectionRange: 13
+  detectionRange: 15
   missileType: 2

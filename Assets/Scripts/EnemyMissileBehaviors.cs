@@ -1,7 +1,6 @@
 using UnityEngine;
 
-
-public class MissileBehavior : MonoBehaviour
+public class EnemyMissileBehaviors : MonoBehaviour
 {
     [SerializeField] private float speedMissile;
     [SerializeField] private float massMissile;
@@ -69,7 +68,7 @@ public class MissileBehavior : MonoBehaviour
             float distance = direction.magnitude;
 
 
-            if(distance < detectionRange)
+            if (distance < detectionRange)
             {
                 Vector3 desiredVelocity = direction * speedMissile;
                 Vector3 steeringForce = (desiredVelocity - rb.velocity).normalized * speedMissile * 0.5f;
@@ -77,9 +76,9 @@ public class MissileBehavior : MonoBehaviour
             }
             else
             {
-                rb.AddForce(transform.right * -speedMissile * Time.deltaTime, forceMode);
+                rb.AddForce(transform.right * speedMissile * Time.deltaTime, forceMode);
             }
-           
+
             if (rb.velocity != Vector3.zero && distance < detectionRange)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(rb.velocity);
@@ -90,7 +89,7 @@ public class MissileBehavior : MonoBehaviour
         }
         else
         {
-            rb.AddForce(transform.right * -speedMissile * Time.deltaTime, forceMode);
+            rb.AddForce(transform.right * speedMissile * Time.deltaTime, forceMode);
         }
     }
     void LateUpdate()
@@ -100,14 +99,14 @@ public class MissileBehavior : MonoBehaviour
         float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
         float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
 
-        if(transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
+        if (transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
         {
-            Destroy(gameObject,0.1f);
+            Destroy(gameObject, 0.1f);
         }
     }
     private void FindTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Player");
         float closestDistance = Mathf.Infinity;
 
         foreach (GameObject enemy in enemies)
@@ -123,9 +122,13 @@ public class MissileBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<EnemyBehavior>().TakeDamage(damages);
+            //other.GetComponent<EnemyBehavior>().TakeDamage(damages);
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("Projectile"))
+        {
             Destroy(gameObject);
         }
     }
