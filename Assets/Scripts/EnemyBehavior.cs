@@ -23,6 +23,9 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float timeBetweenLaserShoot;
     [SerializeField] private float missileLevel;
 
+    [SerializeField] private AudioSource takeDamage;
+    [SerializeField] private AudioSource blowUp;
+
     public float radius;
     public float rotationSpeed = 10f;
 
@@ -176,10 +179,12 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (life > damages) 
         {
+            takeDamage.Play();
             life -= damages;
         }
         else
         {
+            blowUp.Play();
             Destroy(gameObject);
         }
     }
