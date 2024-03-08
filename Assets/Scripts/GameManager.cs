@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Le boss et quand on recommence la vague
-    // Quand le joueur meurt, il relance la vague
+    // Le boss
     // Faire de l'équilibrage
     // Les sons
     // Les menus

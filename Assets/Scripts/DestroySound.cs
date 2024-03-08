@@ -7,6 +7,7 @@ public class DestroySound : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Pickup_Spawn.Instance.spawnPickup(transform.position);
         Invoke(nameof(DestroyItem), 2f);
     }
 

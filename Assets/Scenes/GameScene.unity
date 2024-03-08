@@ -466,6 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 519458846}
   - component: {fileID: 519458847}
+  - component: {fileID: 519458849}
   - component: {fileID: 519458848}
   m_Layer: 0
   m_Name: GameManager
@@ -621,6 +622,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &519458849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519458845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8637a6820157fc4c953f5b2b7c5a4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickups:
+  - {fileID: 2701043261500249095, guid: 89e8fa1f9aa10464a9fc020a041829f2, type: 3}
+  - {fileID: 5672416593029594367, guid: 1c774ebfe23117845bb303ff19b711f7, type: 3}
+  - {fileID: 7475340531379887566, guid: 58f6ff43d95ae1d4dad1d12c7890db7c, type: 3}
+  - {fileID: 2268538678893706133, guid: 5045d5610e67e8e40a5f3e9038f34a76, type: 3}
+  - {fileID: 8675985045912274417, guid: 8afab1a451a945447b1e97978975f406, type: 3}
+  dropRate: 100
 --- !u!1 &526385780
 GameObject:
   m_ObjectHideFlags: 0

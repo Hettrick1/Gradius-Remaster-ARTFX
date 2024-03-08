@@ -19,12 +19,11 @@ public class Pickup_Spawn : MonoBehaviour
     }
 
     //Spawn Pickup Function
-    public void spawnPickup()
+    public void spawnPickup(Vector3 position)
     {
         if (Random.Range(0, 100) <= dropRate)
         {
-            GameObject pickup = pickups[Random.Range(0, pickups.Length)];
-
+            Instantiate(pickups[Random.Range(0, pickups.Length)], position, Quaternion.Euler(90,0,0));
         }
     }
 }

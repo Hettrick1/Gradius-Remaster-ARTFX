@@ -7,6 +7,7 @@ public class Pickup : MonoBehaviour
     [SerializeField] private pickupEffect effect;
     [SerializeField] private AudioSource pickupSound;
     [SerializeField] private AudioSource lifeSound;
+    [SerializeField] private float speed;
 
     //START
     void Start()
@@ -14,33 +15,41 @@ public class Pickup : MonoBehaviour
 
     }
 
-    //COLLISION PLAYER
-    void OnCollisionEnter(Collision Player)
+    private void Update()
     {
-       if ( effect == pickupEffect.Life)
-       {
-            lifeSound.Play();
-
-       }
-        if (effect == pickupEffect.Speed)
+        if (transform.position.x > 5)
         {
-
+            Destroy(gameObject);
         }
-        if (effect == pickupEffect.ChainReaction)
-        {
+        transform.position += Vector3.right * speed * Time.deltaTime;
+    }
 
-        }
-        if (effect == pickupEffect.Missile)
+    //COLLISION PLAYER
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
         {
+            if (effect == pickupEffect.Life)
+            {
+                lifeSound.Play();
 
-        }
-        if (effect == pickupEffect.Missile)
-        {
+            }
+            if (effect == pickupEffect.Speed)
+            {
 
-        }
+            }
+            if (effect == pickupEffect.ChainReaction)
+            {
 
-        if (Player.gameObject.tag == "Player")
-        {
+            }
+            if (effect == pickupEffect.Missile)
+            {
+
+            }
+            if (effect == pickupEffect.Missile)
+            {
+
+            }
             pickupSound.Play();
             Destroy(gameObject);
         }
