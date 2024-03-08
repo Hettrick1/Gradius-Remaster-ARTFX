@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     // Le boss et quand on recommence la vague
     // Quand le joueur meurt, il relance la vague
-    // Les ennemis deviennent de plus en plus forts
     // Faire de l'équilibrage
     // Les sons
     // Les menus
@@ -21,7 +20,9 @@ public class GameManager : MonoBehaviour
     GameObject playerGameObject, bossGameObject;
     Vector3 playerTransform;
 
-    [SerializeField] float enemiesLife;
+    [SerializeField] float timeBetweenLaserShoot, timeBetweenMissileShoot, enemyMoveSpeed, enemyShootSpeed;
+
+    [SerializeField] float enemiesLife, bossLife;
 
     [SerializeField] Transform[] positions;
 
@@ -74,7 +75,10 @@ public class GameManager : MonoBehaviour
                         Destroy(waveParts[i][j].gameObject);
                     }
                 }
-                waveNumber++;
+                if (!isInBossFight)
+                {
+                    waveNumber++;
+                }
                 isInWave = false;
                 if (waveNumber % 5 == 0)
                 {
@@ -90,7 +94,7 @@ public class GameManager : MonoBehaviour
                 bossIsDead = true;
                 isInBossFight = false;
             }
-            if (allEnemiesDead && bossIsDead)
+            if (allEnemiesDead && bossIsDead && !isInBossFight)
             {
                 bossIsDead = false;
                 waveNumber++;
@@ -195,6 +199,7 @@ public class GameManager : MonoBehaviour
             isInWave = true;
             if (!justRevived)
             {
+                LevelUp();
                 moveState1 = ChooseState();
                 moveState2 = ChooseState();
                 moveState3 = ChooseState();
@@ -222,6 +227,7 @@ public class GameManager : MonoBehaviour
         if (!isInWave && !isInBossFight)
         {
             print("boss");
+            isInWave = true;
             isInBossFight = true;
             bossGameObject = Instantiate(enemiesPrefabs, positions[1].position, Quaternion.identity);
         }
@@ -240,6 +246,26 @@ public class GameManager : MonoBehaviour
         part3 = true;
     }
 
+    void LevelUp()
+    {
+        if (timeBetweenLaserShoot > 0.1f)
+        {
+            timeBetweenLaserShoot -= 0.05f;
+        }
+        if (timeBetweenMissileShoot > 0.4f)
+        {
+            timeBetweenMissileShoot -= 0.05f;
+        }
+        if (enemyMoveSpeed < 4)
+        {
+            enemyMoveSpeed += 0.1f;
+        }
+        if (enemyShootSpeed < 1)
+        {
+            enemyShootSpeed += 0.05f;
+        }
+    }
+
     private int ChooseState()
     {
         return Random.Range(1, 4);
@@ -248,5 +274,25 @@ public class GameManager : MonoBehaviour
     public float GetEnemiesLife()
     {
         return enemiesLife;
+    }
+    public float GetTimeBetweenLaserShoot()
+    {
+        return timeBetweenLaserShoot;
+    }
+    public float GetTimeBetweenMissileShoot()
+    {
+        return timeBetweenMissileShoot;
+    }
+    public float GetEnemyMoveSpeed()
+    {
+        return enemyMoveSpeed;
+    }
+    public float GetEnemyShootSpeed()
+    {
+        return enemyShootSpeed;
+    }
+    public float GetWaveNumber() 
+    {
+        return waveNumber; 
     }
 }

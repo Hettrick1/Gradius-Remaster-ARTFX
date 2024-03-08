@@ -24,6 +24,7 @@ public class EnemyLaserBehaviors : MonoBehaviour
         objectWidth = transform.localScale.x;
 
         rb = GetComponent<Rigidbody>();
+        acceleration = GameManager.instance.GetEnemyShootSpeed();
         rb.velocity = transform.right * acceleration;
     }
 
@@ -54,7 +55,6 @@ public class EnemyLaserBehaviors : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Projectile"))
         {
-            print("gqoignj");
             Destroy(gameObject);
         }
     }

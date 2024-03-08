@@ -51,5 +51,9 @@ public class LaserBehavior : MonoBehaviour
             other.GetComponent<EnemyBehavior>().TakeDamage(damages);
             Destroy(gameObject);
         }
+        else if (other.gameObject.CompareTag("EnemyProjectile"))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

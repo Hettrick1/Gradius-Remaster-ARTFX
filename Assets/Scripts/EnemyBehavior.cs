@@ -16,6 +16,7 @@ public class EnemyBehavior : MonoBehaviour
     private List<Transform> activeLaserSpawnPoint = new List<Transform>();
     [SerializeField] private GameObject missile;
     [SerializeField] private GameObject laser;
+    [SerializeField] private GameObject sound;
 
     float missiletimer, laserTimer;
     bool canShootMissile;
@@ -24,7 +25,6 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float missileLevel;
 
     [SerializeField] private AudioSource takeDamage;
-    [SerializeField] private AudioSource blowUp;
 
     public float radius;
     public float rotationSpeed = 10f;
@@ -62,6 +62,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gm = GameManager.instance;
+        LevelUp();
         maxHeight = transform.position.y + 0.2f;
         minHeight = transform.position.y - 0.2f;
 
@@ -81,10 +82,6 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            LevelUp();
-        }
         if (fireState == EnemyFireState.SHOOTLASERS)
         {
             if (laserTimer <= 0 && !hasDied)
@@ -173,7 +170,7 @@ public class EnemyBehavior : MonoBehaviour
         float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
         float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
 
-        if (transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
+        if (transform.position.x > maxX)
         {
             Invoke(nameof(Died), 0.1f);
         }
@@ -198,27 +195,29 @@ public class EnemyBehavior : MonoBehaviour
         }
         else
         {
-            blowUp.Play();
             Died();
         }
     }
-    private void LevelUp()
+    public void LevelUp()
     {
-        missileLevel += 1;
-        if (missileLevel == 1)
+        missileLevel = gm.GetWaveNumber() + 1;
+        timeBetweenLaserShoot = gm.GetTimeBetweenLaserShoot();
+        timeBetweenMissileShoot = gm.GetTimeBetweenMissileShoot();
+        enemyMoveSpeed = gm.GetEnemyMoveSpeed();
+        if (missileLevel == 4)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 2)
+        if (missileLevel == 8)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 3)
+        if (missileLevel == 12)
         {
             canShootMissile = true;
         }
@@ -227,9 +226,10 @@ public class EnemyBehavior : MonoBehaviour
     private void Died()
     {
         hasDied = true;
+        Instantiate(sound, transform.position, Quaternion.identity);
         transform.GetChild(0).gameObject.SetActive(false);
         GetComponent<BoxCollider>().enabled = false;
-        transform.position = Vector3.zero;
+        transform.position = new Vector3(0,0,-1000);
         moveState = EnemyMoveState.STATIC;
     }
     public void Revive()

@@ -511,7 +511,12 @@ MonoBehaviour:
   numberOfEnemies: 0
   enemiesPrefabs: {fileID: 4450141107419114391, guid: 6d67252655a95b74bb00814a9910c3fd, type: 3}
   bossPrefabs: {fileID: 0}
-  enemiesLife: 0
+  timeBetweenLaserShoot: 2
+  timeBetweenMissileShoot: 3
+  enemyMoveSpeed: 1
+  enemyShootSpeed: 1
+  enemiesLife: 1
+  bossLife: 0
   positions:
   - {fileID: 1238680512}
   - {fileID: 526385781}
