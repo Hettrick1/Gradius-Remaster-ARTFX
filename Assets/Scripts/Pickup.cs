@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
@@ -9,10 +7,12 @@ public class Pickup : MonoBehaviour
     [SerializeField] private AudioSource lifeSound;
     [SerializeField] private float speed;
 
+    private PlayerMovements pl;
+
     //START
     void Start()
     {
-
+        pl = PlayerMovements.instance;
     }
 
     private void Update()
@@ -32,11 +32,11 @@ public class Pickup : MonoBehaviour
             if (effect == pickupEffect.Life)
             {
                 lifeSound.Play();
-
+                pl.SetLife();
             }
             if (effect == pickupEffect.Speed)
             {
-
+                pl.SetPlayerSpeed();
             }
             if (effect == pickupEffect.ChainReaction)
             {
@@ -44,11 +44,11 @@ public class Pickup : MonoBehaviour
             }
             if (effect == pickupEffect.Missile)
             {
-
+                pl.SetMissileLevel();
             }
-            if (effect == pickupEffect.Missile)
+            if (effect == pickupEffect.Shield)
             {
-
+                GameManager.instance.SetInvincible();
             }
             pickupSound.Play();
             Destroy(gameObject);

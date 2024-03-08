@@ -49,8 +49,8 @@ public class EnemyLaserBehaviors : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-        {    
-            //other.GetComponent<EnemyBehavior>().TakeDamage(damages);
+        {
+            GameManager.instance.SetJustRevive();
             Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("Projectile"))

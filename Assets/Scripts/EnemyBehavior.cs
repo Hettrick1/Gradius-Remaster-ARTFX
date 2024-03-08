@@ -181,7 +181,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            print("PlayerKilled");
+            GameManager.instance.SetJustRevive();
             Died();
         }
     }

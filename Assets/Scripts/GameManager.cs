@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,11 +10,12 @@ public class GameManager : MonoBehaviour
     // Le GameOver
     // Le score
     // Les feedbacks (score, camerashake, VFX)
-    // Le power up temporaire
+    // Le power up temporaire -> pour le moment yen a un
 
     [SerializeField] int waveNumber = 1, numberOfEnemies;
     [SerializeField] GameObject enemiesPrefabs;
     [SerializeField] GameObject bossPrefabs;
+    [SerializeField] GameObject shield;
     GameObject playerGameObject, bossGameObject;
     Vector3 playerTransform;
 
@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
 
     int moveState1, moveState2, moveState3, shootState1, shootState2, shootState3;
 
-    public bool justRevived;
-    bool beginning = true, isInWave, part1, part2, part3, isInBossFight,bossIsDead;
+    private bool justRevived;
+    bool beginning = true, isInWave, part1, part2, part3, isInBossFight, bossIsDead, isInvincible;
 
     public static GameManager instance;
 
@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
                 //  LA ON RAJOUTE LE REVIVE EN PHASE DE BOSS
                 //
                 //
+                justRevived = false;
             }
             else
             {
@@ -167,6 +168,7 @@ public class GameManager : MonoBehaviour
                         waveParts[i][j].GetComponent<Rigidbody>().velocity = Vector3.zero;
                         waveParts[i][j].GetComponent<EnemyBehavior>().ChooseMoveState(2);
                         waveParts[i][j].GetComponent<EnemyBehavior>().ChooseShootState(1);
+                        waveParts[i][j].GetComponent <EnemyBehavior>().SetJustSpawned(false);
                         waveParts[i][j].GetComponent<EnemyBehavior>().Revive();
                     }
                 }
@@ -182,6 +184,11 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < enemyProjectiles.Length; i++)
                 {
                     Destroy(enemyProjectiles[i]);
+                }
+                GameObject[] powerUps = GameObject.FindGameObjectsWithTag("Pickup");
+                for (int i = 0; i < powerUps.Length; i++)
+                {
+                    Destroy(powerUps[i]);
                 }
                 justRevived = false;
             }
@@ -293,5 +300,24 @@ public class GameManager : MonoBehaviour
     public float GetWaveNumber() 
     {
         return waveNumber; 
+    }
+    public void SetJustRevive()
+    {
+        if (!isInvincible)
+        {
+            justRevived = true;
+            PlayerMovements.instance.SetLife();
+        }
+    }
+    public void SetInvincible()
+    {
+        isInvincible = true;
+        shield.SetActive(true);
+        Invoke(nameof(ResetInvincible), 5f);
+    }
+    private void ResetInvincible()
+    {
+        shield.SetActive(false);
+        isInvincible = false;
     }
 }

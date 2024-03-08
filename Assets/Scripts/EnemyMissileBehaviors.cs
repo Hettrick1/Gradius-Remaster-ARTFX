@@ -124,7 +124,7 @@ public class EnemyMissileBehaviors : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //other.GetComponent<EnemyBehavior>().TakeDamage(damages);
+            GameManager.instance.SetJustRevive();
             Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("Projectile"))

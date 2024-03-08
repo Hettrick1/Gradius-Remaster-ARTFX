@@ -102,6 +102,7 @@ public class MissileBehavior : MonoBehaviour
 
         if(transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
         {
+            GetComponent<BoxCollider>().enabled = false;
             Destroy(gameObject,0.1f);
         }
     }

@@ -30,6 +30,7 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float timeBetweenMissileShoot;
     [SerializeField] private float timeBetweenLaserShoot;
     [SerializeField] private float missileLevel;
+    [SerializeField] private float life;
 
     float missiletimer, laserTimer;
     bool isShootingMissile, isShootingLasers, canShootMissile;
@@ -124,22 +125,65 @@ public class PlayerMovements : MonoBehaviour
     private void LevelUp()
     {
         missileLevel += 1;
-        if (missileLevel == 1)
+        if (missileLevel ==5)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 2)
+        if (missileLevel == 10)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 3)
+        if (missileLevel == 20)
         {
             canShootMissile = true;
         }
+    }
+
+    public void SetLife()
+    {
+        if (life < 5)
+        {
+            life += 1;
+        }
+    }
+    public void LessLife()
+    {
+        if (life > 0)
+        {
+            life -= 1;
+        }
+        else
+        {
+            print("GO");
+            //
+            //
+            // MAKE THE GAMEOVER APPEAR
+            //
+            //
+        }
+    }
+    public void SetPlayerSpeed()
+    {
+        if (speedSpaceship < 8)
+        {
+            speedSpaceship += 0.5f;
+        }
+    }
+    public void SetMissileLevel()
+    {
+        if (timeBetweenLaserShoot > 0.3)
+        {
+            timeBetweenLaserShoot -= 0.05f;
+        }
+        if (timeBetweenMissileShoot > 0.5f && canShootMissile)
+        {
+            timeBetweenMissileShoot -= 0.05f;
+        }
+        LevelUp();
     }
 }
