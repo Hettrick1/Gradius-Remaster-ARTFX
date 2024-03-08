@@ -640,7 +640,7 @@ MonoBehaviour:
   - {fileID: 7475340531379887566, guid: 58f6ff43d95ae1d4dad1d12c7890db7c, type: 3}
   - {fileID: 2268538678893706133, guid: 5045d5610e67e8e40a5f3e9038f34a76, type: 3}
   - {fileID: 8675985045912274417, guid: 8afab1a451a945447b1e97978975f406, type: 3}
-  dropRate: 100
+  dropRate: 30
 --- !u!1 &526385780
 GameObject:
   m_ObjectHideFlags: 0
