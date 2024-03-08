@@ -21,6 +21,8 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private GameObject missile;
     [SerializeField] private GameObject laser;
 
+    [SerializeField] private GameObject GameOver;
+
     [Header ("Game feel")]
     [SerializeField] private float speedSpaceship;
     [SerializeField] private float dragSpaceship;
@@ -33,7 +35,7 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float life;
 
     float missiletimer, laserTimer;
-    bool isShootingMissile, isShootingLasers, canShootMissile;
+    bool isShootingMissile, isShootingLasers, canShootMissile, paused;
 
     Vector2 movement;
 
@@ -44,6 +46,12 @@ public class PlayerMovements : MonoBehaviour
         rb.drag = dragSpaceship;
         rb.mass = massSpaceship;
         activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1f;
+        paused = false;
+        GameOver.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     private void Update()
@@ -97,11 +105,14 @@ public class PlayerMovements : MonoBehaviour
 
     public void playerMovement(InputAction.CallbackContext context)
     {
-        input = context.ReadValue<Vector2>();
+        if (!paused)
+        {
+            input = context.ReadValue<Vector2>();
+        }
     }
     public void playerShoot(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !paused)
         {
             isShootingMissile = true;
             isShootingLasers = true;
@@ -151,12 +162,11 @@ public class PlayerMovements : MonoBehaviour
         }
         else
         {
-            print("GO");
-            //
-            //
-            // MAKE THE GAMEOVER APPEAR
-            //
-            //
+            GameOver.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            paused = true;
+            gameObject.SetActive(false);
         }
     }
     public void SetPlayerSpeed()
@@ -177,5 +187,9 @@ public class PlayerMovements : MonoBehaviour
             timeBetweenMissileShoot -= 0.05f;
         }
         LevelUp();
+    }
+    public void SetPaused(bool gamePause)
+    {
+        paused = gamePause;
     }
 }
