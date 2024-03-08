@@ -47,7 +47,7 @@ public class BossBehaviors : MonoBehaviour
         maxHeight = transform.position.y + 0.5f;
         minHeight = transform.position.y - 0.5f;
         spaceshipAsset = transform.GetChild(0).gameObject;
-        //life = gm.GetBossLife();
+        life = GameManager.instance.GetBossLife();
     }
 
     void Update()
@@ -204,7 +204,7 @@ public class BossBehaviors : MonoBehaviour
     private void SetHasDied()
     {
         hasDied = true;
-        Destroy(gameObject);
+        Destroy(gameObject, 0.1f);
     }
 
     public bool GetHasDied()

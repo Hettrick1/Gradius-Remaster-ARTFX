@@ -22,14 +22,12 @@ public class VolumeSettings : MonoBehaviour
     {
         musicVolumeSlider.value = PlayerPrefs.GetFloat(AudioManager.MUSIC_KEY, 1f);
         sfxVolumeSlider.value = PlayerPrefs.GetFloat(AudioManager.SFX_KEY, 1f);
-        mouseSensivitySlider.value = PlayerPrefs.GetFloat("Sensivity", 1f);
     }
 
     private void OnDisable()
     {
         PlayerPrefs.SetFloat(AudioManager.MUSIC_KEY, musicVolumeSlider.value);
         PlayerPrefs.SetFloat(AudioManager.SFX_KEY, sfxVolumeSlider.value);
-        PlayerPrefs.SetFloat("Sensivity", mouseSensivitySlider.value);
     }
     void SetMusicVolume(float value)
     {

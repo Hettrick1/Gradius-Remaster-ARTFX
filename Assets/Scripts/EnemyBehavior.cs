@@ -172,7 +172,11 @@ public class EnemyBehavior : MonoBehaviour
 
         if (transform.position.x > maxX)
         {
-            Invoke(nameof(Died), 0.1f);
+            hasDied = true;
+            transform.GetChild(0).gameObject.SetActive(false);
+            GetComponent<BoxCollider>().enabled = false;
+            transform.position = new Vector3(0, 0, -1000);
+            moveState = EnemyMoveState.STATIC;
         }
     }
 

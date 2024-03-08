@@ -13,13 +13,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private InputActionReference escape;
     [SerializeField] private Button startBtn;
     [SerializeField] private Slider volumeSlider;
-    [SerializeField] private Animator animator;
 
 
     void Start()
     {
         instance = this;
-        animator.SetTrigger("Menu");
         Return();
     }
 
@@ -85,6 +83,10 @@ public class MenuManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+    public void Play()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 
 }

@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     // Les sons
     // Les menus
-    // Le GameOver
     // Le score
     // Les feedbacks (score, camerashake, VFX)
     // Le power up temporaire -> pour le moment yen a un
@@ -300,7 +299,10 @@ public class GameManager : MonoBehaviour
             enemyShootSpeed += 0.05f;
         }
     }
-
+    public float GetBossLife()
+    {
+        return bossLife;
+    }
     private int ChooseState()
     {
         return Random.Range(1, 4);
