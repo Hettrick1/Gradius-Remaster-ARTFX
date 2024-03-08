@@ -100,7 +100,7 @@ public class EnemyMissileBehaviors : MonoBehaviour
         float minY = mainCamera.transform.position.y - camHeight / 2f + objectHeight / 2f;
         float maxY = mainCamera.transform.position.y + camHeight / 2f - objectHeight / 2f;
 
-        if (transform.position.x < minX || transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
+        if (transform.position.x > maxX || transform.position.y < minY || transform.position.y > maxY)
         {
             Destroy(gameObject, 0.1f);
         }

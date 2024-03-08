@@ -19,7 +19,7 @@ public class BackgroundMovement : MonoBehaviour
     private void Update()
     {
         transform.position += Vector3.right * speed * Time.deltaTime;
-        if(transform.position.x >= maxPos )
+        if(transform.position.x >= maxPos-0.005f )
         {
             TpBackground();
         }

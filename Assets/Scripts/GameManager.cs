@@ -1,19 +1,24 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Les sons
-    // Les menus
     // Le score
-    // Les feedbacks (score, camerashake, VFX)
-    // Le power up temporaire -> pour le moment yen a un
+
+    private int score;
 
     [SerializeField] int waveNumber = 1, numberOfEnemies;
     [SerializeField] GameObject enemiesPrefabs;
     [SerializeField] GameObject bossPrefabs;
     [SerializeField] GameObject shield;
+
+    [SerializeField] TextMeshProUGUI scoreTxt;
+
+    [SerializeField] AudioSource playerShield;
+    [SerializeField] AudioSource pickupSound;
+
     GameObject playerGameObject, bossGameObject;
     Vector3 playerTransform;
 
@@ -156,6 +161,7 @@ public class GameManager : MonoBehaviour
             if (isInBossFight)
             {
                 bossGameObject.transform.position = new Vector3 (-22, 0, -10);
+                bossGameObject.GetComponent<BossBehaviors>().Load();
 
                 playerGameObject.transform.position = playerTransform;
                 CancelInvoke();
@@ -298,6 +304,14 @@ public class GameManager : MonoBehaviour
         {
             enemyShootSpeed += 0.05f;
         }
+        if(enemiesLife < 50)
+        {
+            enemiesLife += 1;
+        }
+        if(bossLife < 1000)
+        {
+            bossLife += 5;
+        }
     }
     public float GetBossLife()
     {
@@ -343,6 +357,7 @@ public class GameManager : MonoBehaviour
     public void SetInvincible()
     {
         isInvincible = true;
+        playerShield.Play();
         shield.SetActive(true);
         Invoke(nameof(ResetInvincible), 5f);
     }
@@ -355,5 +370,19 @@ public class GameManager : MonoBehaviour
     public void Retry()
     {
         SceneManager.LoadScene("GameScene");
+    }
+    public void PlaySound()
+    {
+        pickupSound.Play();
+    }
+
+    public void AddScore(int scoreAdded)
+    {
+        score += scoreAdded;
+        scoreTxt.SetText(score.ToString());
+    }
+    public int GetScore()
+    {
+        return score;
     }
 }

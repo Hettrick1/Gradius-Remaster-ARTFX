@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,7 @@ public class PlayerMovements : MonoBehaviour
 
      [Header("Audio")]
     [SerializeField] AudioSource playerSound;
-
+    
     [SerializeField] private Transform missileSpawnPoint;
     [SerializeField] private Transform[] laserSpawnPoints;
     private List<Transform> activeLaserSpawnPoint = new List<Transform>();
@@ -22,6 +23,9 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private GameObject laser;
 
     [SerializeField] private GameObject GameOver;
+    [SerializeField] private GameObject PlayerHud;
+
+    [SerializeField] TextMeshProUGUI finalScoreTxt;
 
     [Header ("Game feel")]
     [SerializeField] private float speedSpaceship;
@@ -33,6 +37,8 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float timeBetweenLaserShoot;
     [SerializeField] private float missileLevel;
     [SerializeField] private float life;
+
+    [SerializeField] GameObject[] lifes;
 
     float missiletimer, laserTimer;
     bool isShootingMissile, isShootingLasers, canShootMissile, paused;
@@ -51,7 +57,13 @@ public class PlayerMovements : MonoBehaviour
         Time.timeScale = 1f;
         paused = false;
         GameOver.SetActive(false);
+        PlayerHud.SetActive(true);
         gameObject.SetActive(true);
+
+        for (int i = 0; i < life; i++)
+        {
+            lifes[i].SetActive(true);
+        }
     }
 
     private void Update()
@@ -64,7 +76,6 @@ public class PlayerMovements : MonoBehaviour
         if (isShootingLasers && laserTimer <= 0)
         {
             laserTimer = timeBetweenLaserShoot;
-            playerSound.Play();
             foreach (Transform laserSpawnPoint in activeLaserSpawnPoint)
             {
                 Instantiate(laser, laserSpawnPoint.position, Quaternion.identity);
@@ -152,20 +163,25 @@ public class PlayerMovements : MonoBehaviour
         if (life < 5)
         {
             life += 1;
+            lifes[(int)life-1].SetActive(true);
         }
     }
     public void LessLife()
     {
         if (life > 0)
         {
+            playerSound.Play();
+            lifes[(int)life-1].SetActive(false);
             life -= 1;
         }
         else
         {
             GameOver.SetActive(true);
+            PlayerHud.SetActive(false);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             paused = true;
+            finalScoreTxt.SetText(GameManager.instance.GetScore().ToString());
             gameObject.SetActive(false);
         }
     }

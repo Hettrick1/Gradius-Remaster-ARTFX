@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossBehaviors : MonoBehaviour
 {
@@ -17,6 +15,10 @@ public class BossBehaviors : MonoBehaviour
     [SerializeField] private Transform[] missileSpawnPoints;
     [SerializeField] private GameObject laser, missile;
     [SerializeField] private GameObject[] explosions;
+
+    [SerializeField] private Canvas bossLife;
+    private Canvas bossLifeGo;
+    private Slider bossLifeSlider;
 
     [SerializeField] private AudioSource takeDamage;
 
@@ -47,7 +49,16 @@ public class BossBehaviors : MonoBehaviour
         maxHeight = transform.position.y + 0.5f;
         minHeight = transform.position.y - 0.5f;
         spaceshipAsset = transform.GetChild(0).gameObject;
-        life = GameManager.instance.GetBossLife();
+        bossLifeGo = Instantiate(bossLife);
+        bossLifeSlider = bossLifeGo.transform.GetChild(0).gameObject.GetComponent<Slider>();
+        Load();
+    }
+
+    public void Load()
+    {
+        life = gm.GetBossLife();
+        bossLifeSlider.maxValue = life;
+        bossLifeSlider.value = life;
     }
 
     void Update()
@@ -177,15 +188,18 @@ public class BossBehaviors : MonoBehaviour
         {
             takeDamage.Play();
             life -= damages;
+            bossLifeSlider.value = life;
         }
         else
         {
+            bossLifeSlider.value = 0;
             Died();
         }
     }
 
     private void Died()
     {
+        gm.AddScore(2000);
         explosionNumber = 0;
         isExploding = true;
         Invoke(nameof(SetHasDied), 4f);
@@ -204,6 +218,7 @@ public class BossBehaviors : MonoBehaviour
     private void SetHasDied()
     {
         hasDied = true;
+        bossLifeGo.gameObject.SetActive(false);
         Destroy(gameObject, 0.1f);
     }
 

@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327485276870713091}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.12278779, y: -0.6963643, z: 0.12278779, w: 0.6963643}
   m_LocalPosition: {x: 0, y: -1, z: 10}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7376604397945859880}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 20}
 --- !u!1 &1860918812360823241
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +176,6 @@ MonoBehaviour:
   timeBetweenLaserShoot: 0.5
   missileLevel: 0
   takeDamage: {fileID: 5166306741472468604}
-  blowUp: {fileID: 0}
   radius: 2
   rotationSpeed: 2
 --- !u!82 &5166306741472468604
@@ -188,8 +187,8 @@ AudioSource:
   m_GameObject: {fileID: 4450141107419114391}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7e20fd95449402c44888565f0597adcb, type: 3}
+  OutputAudioMixerGroup: {fileID: 5095040860793148487, guid: 523a57bc84210d34c9990444629bbee5, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 68fee717cf5bcbd4191376d5d475b4a1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -386,13 +385,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7180855313293798077}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -2, z: 10}
+  m_LocalRotation: {x: 0.122787856, y: -0.6963643, z: -0.122787856, w: 0.6963643}
+  m_LocalPosition: {x: 0, y: -3, z: 10}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7376604397945859880}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -20}
 --- !u!1 &8509679846170102268
 GameObject:
   m_ObjectHideFlags: 0

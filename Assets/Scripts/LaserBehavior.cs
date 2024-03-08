@@ -55,6 +55,7 @@ public class LaserBehavior : MonoBehaviour
         else if (other.gameObject.CompareTag("EnemyProjectile"))
         {
             Destroy(other.gameObject);
+            Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("Boss"))
         {

@@ -17,7 +17,7 @@ public class Pickup : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.x > 5)
+        if (transform.position.x > 10)
         {
             Destroy(gameObject);
         }
@@ -50,7 +50,8 @@ public class Pickup : MonoBehaviour
             {
                 GameManager.instance.SetInvincible();
             }
-            pickupSound.Play();
+            GameManager.instance.PlaySound();
+            GameManager.instance.AddScore(100);
             Destroy(gameObject);
         }
     }

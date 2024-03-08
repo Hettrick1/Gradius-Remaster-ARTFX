@@ -208,20 +208,20 @@ public class EnemyBehavior : MonoBehaviour
         timeBetweenLaserShoot = gm.GetTimeBetweenLaserShoot();
         timeBetweenMissileShoot = gm.GetTimeBetweenMissileShoot();
         enemyMoveSpeed = gm.GetEnemyMoveSpeed();
-        if (missileLevel == 4)
+        if (missileLevel == 5)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 8)
+        if (missileLevel == 15)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 12)
+        if (missileLevel == 25)
         {
             canShootMissile = true;
         }
@@ -230,6 +230,7 @@ public class EnemyBehavior : MonoBehaviour
     private void Died()
     {
         hasDied = true;
+        gm.AddScore(150);
         Instantiate(sound, transform.position, Quaternion.identity);
         transform.GetChild(0).gameObject.SetActive(false);
         GetComponent<BoxCollider>().enabled = false;
