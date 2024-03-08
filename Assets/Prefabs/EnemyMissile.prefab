@@ -292,8 +292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866cf892c0a57d54cb18c111382591a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMissile: 8
-  massMissile: 0.3
+  speedMissile: 2
+  massMissile: 0.15
   damages: 10
-  detectionRange: 15
+  detectionRange: 4
   missileType: 2

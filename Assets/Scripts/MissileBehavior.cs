@@ -129,5 +129,10 @@ public class MissileBehavior : MonoBehaviour
             other.GetComponent<EnemyBehavior>().TakeDamage(damages);
             Destroy(gameObject);
         }
+        else if (other.gameObject.CompareTag("Boss"))
+        {
+            other.GetComponent<BossBehaviors>().TakeDamage(damages);
+            Destroy(gameObject);
+        }
     }
 }

@@ -55,6 +55,7 @@ public class EnemyMissileBehaviors : MonoBehaviour
         }
 
         FindTarget();
+        Invoke(nameof(Explosion), 3f);
     }
     private void OnBecameInvisible()
     {
@@ -64,7 +65,7 @@ public class EnemyMissileBehaviors : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 direction = target.position - transform.position;
+            Vector3 direction = target.position + new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), 0) - transform.position;
             float distance = direction.magnitude;
 
 
@@ -131,5 +132,11 @@ public class EnemyMissileBehaviors : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    
+    public void Explosion()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<MeshRenderer>().enabled = false;
     }
 }

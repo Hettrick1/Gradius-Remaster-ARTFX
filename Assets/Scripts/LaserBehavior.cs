@@ -56,5 +56,10 @@ public class LaserBehavior : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
+        else if (other.gameObject.CompareTag("Boss"))
+        {
+            other.GetComponent<BossBehaviors>().TakeDamage(damages);
+            Destroy(gameObject);
+        }
     }
 }
