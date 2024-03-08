@@ -35,8 +35,6 @@ public class PlayerMovements : MonoBehaviour
     float missiletimer, laserTimer;
     bool isShootingMissile, isShootingLasers, canShootMissile;
 
-    float timer;
-    bool isShooting;
     Vector2 movement;
 
     private void Start()
@@ -50,11 +48,6 @@ public class PlayerMovements : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            LevelUp();
-        }
-
         if (isShootingMissile && missiletimer <= 0 && canShootMissile)
         {
             missiletimer = timeBetweenMissileShoot;
@@ -112,7 +105,6 @@ public class PlayerMovements : MonoBehaviour
         {
             isShootingMissile = true;
             isShootingLasers = true;
-            isShooting = true;
         }
             
         if (context.canceled)

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Le boss
-    // Faire de l'équilibrage
     // Les sons
     // Les menus
     // Le GameOver
@@ -30,7 +28,7 @@ public class GameManager : MonoBehaviour
     int moveState1, moveState2, moveState3, shootState1, shootState2, shootState3;
 
     private bool justRevived;
-    bool beginning = true, isInWave, part1, part2, part3, isInBossFight, bossIsDead, isInvincible;
+    bool beginning = true, isInWave, part1, part2, part3, boss, isInBossFight, bossIsDead, isInvincible;
 
     public static GameManager instance;
 
@@ -88,7 +86,7 @@ public class GameManager : MonoBehaviour
                     NewWave();
                 }
             }
-            if(isInBossFight && !bossIsDead && bossGameObject.GetComponent<EnemyBehavior>().HasDied())
+            if(isInBossFight && !bossIsDead && bossGameObject.GetComponent<BossBehaviors>().GetHasDied())
             {
                 bossIsDead = true;
                 isInBossFight = false;
@@ -145,16 +143,37 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        if(boss && isInBossFight)
+        {
+            bossGameObject.GetComponent<BossBehaviors>().SetJustSpawned(true);
+            if(bossGameObject.transform.position.x > -12)
+            {
+                bossGameObject.GetComponent<BossBehaviors>().SetJustSpawned(false);
+            }
+        }
         if (justRevived)
         {
             if (isInBossFight)
             {
-                bossGameObject.transform.position = positions[1].position;
-                //
-                //
-                //  LA ON RAJOUTE LE REVIVE EN PHASE DE BOSS
-                //
-                //
+                bossGameObject.transform.position = new Vector3 (-22, 0, -10);
+
+                playerGameObject.transform.position = playerTransform;
+                CancelInvoke();
+                GameObject[] projectiles = GameObject.FindGameObjectsWithTag("Projectile");
+                for (int i = 0; i < projectiles.Length; i++)
+                {
+                    Destroy(projectiles[i]);
+                }
+                GameObject[] enemyProjectiles = GameObject.FindGameObjectsWithTag("EnemyProjectile");
+                for (int i = 0; i < enemyProjectiles.Length; i++)
+                {
+                    Destroy(enemyProjectiles[i]);
+                }
+                GameObject[] powerUps = GameObject.FindGameObjectsWithTag("Pickup");
+                for (int i = 0; i < powerUps.Length; i++)
+                {
+                    Destroy(powerUps[i]);
+                }
                 justRevived = false;
             }
             else
@@ -232,13 +251,22 @@ public class GameManager : MonoBehaviour
     {
         if (!isInWave && !isInBossFight)
         {
-            print("boss");
             isInWave = true;
             isInBossFight = true;
-            bossGameObject = Instantiate(enemiesPrefabs, positions[1].position, Quaternion.identity);
+            boss = false;
+            if (!justRevived)
+            {
+                bossGameObject = Instantiate(bossPrefabs, new Vector3(-22, 0, -10), Quaternion.identity);
+                bossGameObject.GetComponent<BossBehaviors>().SetJustSpawned(true);
+            }
+            Invoke(nameof(Boss), 0.1f);
         }
     }
 
+    void Boss()
+    {
+        boss = true;
+    }
     void Part1()
     {
         part1 = true; 
@@ -306,7 +334,7 @@ public class GameManager : MonoBehaviour
         if (!isInvincible)
         {
             justRevived = true;
-            PlayerMovements.instance.SetLife();
+            PlayerMovements.instance.LessLife();
         }
     }
     public void SetInvincible()

@@ -16,6 +16,7 @@ public class BossBehaviors : MonoBehaviour
     [SerializeField] private Transform[] laserSpawnPoints;
     [SerializeField] private Transform[] missileSpawnPoints;
     [SerializeField] private GameObject laser, missile;
+    [SerializeField] private GameObject[] explosions;
 
     [SerializeField] private AudioSource takeDamage;
 
@@ -26,10 +27,12 @@ public class BossBehaviors : MonoBehaviour
     private GameManager gm;
 
     float life, missiletimer, laserTimer, verticalMoveDirection = 1, shootStateTimer,angle;
-    bool hasDied, justSpawned;
+    bool isExploding, hasDied, justSpawned;
 
     private float maxHeight;
     private float minHeight;
+
+    int explosionNumber;
 
     enum BossFireState
     {
@@ -49,22 +52,23 @@ public class BossBehaviors : MonoBehaviour
 
     void Update()
     {
-        if (shootStateTimer <= 0 && !hasDied)
+        if (shootStateTimer <= 0 && !isExploding)
         {
             shootStateTimer = timeBetweenShootState;
             ChooseShootState(Random.Range(1, 4));
         }
         if (fireState == BossFireState.SHOOTLASERS || fireState == BossFireState.SHOOTDIAGONALS)
         {
-            if (laserTimer <= 0 && !hasDied)
+            if (laserTimer <= 0 && !isExploding)
             {
-                laserTimer = timeBetweenLaserShoot;
                 if(fireState == BossFireState.SHOOTDIAGONALS)
                 {
-                    angle = Mathf.Sin(Time.time) * 30;
+                    laserTimer = timeBetweenLaserShoot / 1.5f;
+                    angle = Mathf.Sin(Time.time) * 40;
                 }
                 else
                 {
+                    laserTimer = timeBetweenLaserShoot;
                     angle = 0;
                 }
                 foreach (Transform laserSpawnPoint in activeLaserSpawnPoint)
@@ -77,7 +81,7 @@ public class BossBehaviors : MonoBehaviour
         }
         if (fireState == BossFireState.SHOOTMISSILES)
         {
-            if (missiletimer <= 0 && !hasDied)
+            if (missiletimer <= 0 && !isExploding)
             {
                 missiletimer = timeBetweenMissileShoot;
                 foreach (Transform missileSpawnPoint in missileSpawnPoints)
@@ -92,6 +96,11 @@ public class BossBehaviors : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (justSpawned)
+        {
+            rb.velocity += Vector3.right * bossMoveSpeed * Time.fixedDeltaTime;
+        }
+
         if (transform.position.y >= maxHeight)
         {
             verticalMoveDirection = -1;
@@ -101,7 +110,7 @@ public class BossBehaviors : MonoBehaviour
             verticalMoveDirection = 1;
         }
         rb.velocity += verticalMoveSpeed * verticalMoveDirection * Vector3.up * Time.fixedDeltaTime;
-        if (hasDied)
+        if (isExploding)
         {
             rb.velocity = Vector3.zero;
         }
@@ -177,11 +186,33 @@ public class BossBehaviors : MonoBehaviour
 
     private void Died()
     {
+        explosionNumber = 0;
+        isExploding = true;
+        Invoke(nameof(SetHasDied), 4f);
+        InvokeRepeating(nameof(Explosions), 0f, 1f);
+    }
+
+    private void Explosions()
+    {
+        if(explosionNumber < explosions.Length)
+        {
+            explosions[explosionNumber].gameObject.SetActive(true);
+            explosionNumber++;
+        }
+    }
+
+    private void SetHasDied()
+    {
         hasDied = true;
+        Destroy(gameObject);
     }
 
     public bool GetHasDied()
     {
         return hasDied;
+    }
+    public void SetJustSpawned(bool spawned)
+    {
+        justSpawned = spawned;
     }
 }
