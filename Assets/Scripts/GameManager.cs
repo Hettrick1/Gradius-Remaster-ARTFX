@@ -302,7 +302,7 @@ public class GameManager : MonoBehaviour
         }
         if (enemyShootSpeed < 1)
         {
-            enemyShootSpeed += 0.05f;
+            enemyShootSpeed += 0.1f;
         }
         if(enemiesLife < 50)
         {
@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour
         }
         if(bossLife < 1000)
         {
-            bossLife += 5;
+            bossLife += 20;
         }
     }
     public float GetBossLife()

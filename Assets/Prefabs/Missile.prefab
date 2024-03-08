@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMissile: 8
   massMissile: 0.2
-  damages: 10
+  damages: 20
   detectionRange: 13
   missileType: 2
 --- !u!82 &-9222881323225708644

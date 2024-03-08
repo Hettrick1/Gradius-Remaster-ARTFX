@@ -214,14 +214,14 @@ public class EnemyBehavior : MonoBehaviour
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 15)
+        if (missileLevel == 10)
         {
             activeLaserSpawnPoint.Clear();
             activeLaserSpawnPoint.Add(laserSpawnPoints[0]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[1]);
             activeLaserSpawnPoint.Add(laserSpawnPoints[2]);
         }
-        if (missileLevel == 25)
+        if (missileLevel == 15)
         {
             canShootMissile = true;
         }
